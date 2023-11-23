@@ -1,5 +1,5 @@
 {
-    "name": "envialosimple/transaccional-php",
+    "name": "envialosimple/transaccional",
     "description": "PHP SDK for EnvíaloSimple Transaccional",
     "type": "library",
     "license": "MIT",

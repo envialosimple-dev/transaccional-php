@@ -5,7 +5,7 @@
 ## Installation
 
 ```bash
-composer install envialosimple-dev/transaccional
+composer install envialosimple/transaccional
 ```
 
 ## Basic Usage
