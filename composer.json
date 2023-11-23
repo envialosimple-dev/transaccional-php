@@ -1,0 +1,22 @@
+{
+    "name": "envialosimple/transaccional-php",
+    "description": "PHP SDK for EnvíaloSimple Transaccional",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "EnvialoSimple\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Daniel Libonati",
+            "email": "daniel@envialosimple.com"
+        }
+    ],
+    "require-dev": {
+        "phpunit/phpunit": "^10",
+        "vlucas/phpdotenv": "^5.6",
+        "friendsofphp/php-cs-fixer": "^3.39"
+    }
+}
