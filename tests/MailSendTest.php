@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use Dotenv\Exception\InvalidFileException;
 use PHPUnit\Framework\TestCase;
 use EnvialoSimple\Transaccional;
 use EnvialoSimple\Transaccional\Exceptions\ESTRException;
@@ -11,8 +12,11 @@ use EnvialoSimple\Transaccional\Helpers\Builder\MailParams;
 use function PHPUnit\Framework\assertArrayHasKey;
 use function PHPUnit\Framework\assertTrue;
 
-$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
-$dotenv->load();
+
+if (file_exists(__DIR__ . '/.env')) {
+    $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+    $dotenv->load();
+}
 
 final class MailSendTest extends TestCase
 {
