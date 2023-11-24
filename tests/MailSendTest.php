@@ -2,7 +2,6 @@
 
 declare(strict_types=1);
 
-use Dotenv\Exception\InvalidFileException;
 use PHPUnit\Framework\TestCase;
 use EnvialoSimple\Transaccional;
 use EnvialoSimple\Transaccional\Exceptions\ESTRException;
@@ -13,10 +12,8 @@ use function PHPUnit\Framework\assertArrayHasKey;
 use function PHPUnit\Framework\assertTrue;
 
 
-if (file_exists(__DIR__ . '/.env')) {
-    $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
-    $dotenv->load();
-}
+$dotenv = Dotenv\Dotenv::createUnsafeImmutable(__DIR__);
+$dotenv->safeLoad();
 
 final class MailSendTest extends TestCase
 {
@@ -25,7 +22,7 @@ final class MailSendTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
-        $this->estr = new Transaccional($_ENV['TEST_API_KEY']);
+        $this->estr = new Transaccional(getenv('TEST_API_KEY'));
     }
 
     public function testFailNoFrom(): void
@@ -33,7 +30,7 @@ final class MailSendTest extends TestCase
         $mailParams = new MailParams();
 
         $mailParams
-            ->setTo($_ENV['TEST_TO_EMAIL'], $_ENV['TEST_TO_NAME'])
+            ->setTo(getenv('TEST_TO_EMAIL'), getenv('TEST_TO_NAME'))
             ->setSubject('Test')
             ->setHtml('<html><body><h1>TEST {{name}}</h1><img src="cid:logo"/></body></html>')
         ;
@@ -47,7 +44,7 @@ final class MailSendTest extends TestCase
         $mailParams = new MailParams();
 
         $mailParams
-            ->setFrom($_ENV['TEST_FROM_EMAIL'], $_ENV['TEST_FROM_NAME'])
+            ->setFrom(getenv('TEST_FROM_EMAIL'), getenv('TEST_FROM_NAME'))
             ->setSubject('Test')
             ->setHtml('<html><body><h1>TEST {{name}}</h1><img src="cid:logo"/></body></html>')
         ;
@@ -61,10 +58,10 @@ final class MailSendTest extends TestCase
         $mailParams = new MailParams();
 
         $mailParams
-            ->setFrom($_ENV['TEST_FROM_EMAIL'])
-            ->setFromName($_ENV['TEST_FROM_NAME'])
-            ->setTo($_ENV['TEST_TO_EMAIL'])
-            ->setToName($_ENV['TEST_TO_NAME'])
+            ->setFrom(getenv('TEST_FROM_EMAIL'))
+            ->setFromName(getenv('TEST_FROM_NAME'))
+            ->setTo(getenv('TEST_TO_EMAIL'))
+            ->setToName(getenv('TEST_TO_NAME'))
             ->setHtml('<html><body><h1>TEST {{name}}</h1><img src="cid:logo"/></body></html>')
         ;
 
@@ -77,10 +74,10 @@ final class MailSendTest extends TestCase
         $mailParams = new MailParams();
 
         $mailParams
-            ->setFrom($_ENV['TEST_FROM_EMAIL'])
-            ->setFromName($_ENV['TEST_FROM_NAME'])
-            ->setTo($_ENV['TEST_TO_EMAIL'])
-            ->setToName($_ENV['TEST_TO_NAME'])
+            ->setFrom(getenv('TEST_FROM_EMAIL'))
+            ->setFromName(getenv('TEST_FROM_NAME'))
+            ->setTo(getenv('TEST_TO_EMAIL'))
+            ->setToName(getenv('TEST_TO_NAME'))
         ;
 
         $this->expectException(ESTRException::class);
@@ -104,8 +101,8 @@ final class MailSendTest extends TestCase
         );
 
         $mailParams
-            ->setFrom($_ENV['TEST_FROM_EMAIL'], $_ENV['TEST_FROM_NAME'])
-            ->setTo($_ENV['TEST_TO_EMAIL'], $_ENV['TEST_TO_NAME'])
+            ->setFrom(getenv('TEST_FROM_EMAIL'), getenv('TEST_FROM_NAME'))
+            ->setTo(getenv('TEST_TO_EMAIL'), getenv('TEST_TO_NAME'))
             ->setSubject('Test')
             ->setHtml('<html><body><h1>TEST {{name}}</h1><img src="cid:logo"/></body></html>')
             ->setText('TEST')
@@ -125,10 +122,10 @@ final class MailSendTest extends TestCase
         $mailParams = new MailParams();
 
         $mailParams
-            ->setFrom($_ENV['TEST_FROM_EMAIL'], $_ENV['TEST_FROM_NAME'])
-            ->setTo($_ENV['TEST_TO_EMAIL'], $_ENV['TEST_TO_NAME'])
+            ->setFrom(getenv('TEST_FROM_EMAIL'), getenv('TEST_FROM_NAME'))
+            ->setTo(getenv('TEST_TO_EMAIL'), getenv('TEST_TO_NAME'))
             ->setSubject('Test Template')
-            ->setTemplateID($_ENV['TEST_TEMPLATE_ID'])
+            ->setTemplateID(getenv('TEST_TEMPLATE_ID'))
             ->setSubstitutions(['name' => 'TestName'])
         ;
 
@@ -138,6 +135,4 @@ final class MailSendTest extends TestCase
         assertArrayHasKey('queued', $outcome, 'Outcome contains a key "queued"');
         assertTrue($outcome['queued'], 'Message has been queued');
     }
-
-
 }
