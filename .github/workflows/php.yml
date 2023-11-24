@@ -1,7 +1,7 @@
 name: PHP Composer
 
 env:
-  TEST_API_KEY: ${{ vars.TEST_API_KEY }}
+  TEST_API_KEY: ${{ secrets.TEST_API_KEY }}
   TEST_FROM_EMAIL: ${{ vars.TEST_FROM_EMAIL }}
   TEST_TO_EMAIL: ${{ vars.TEST_TO_EMAIL }}
   TEST_FROM_NAME: ${{ vars.TEST_FROM_NAME }}
