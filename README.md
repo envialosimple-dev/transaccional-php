@@ -20,7 +20,7 @@ $mailParams = new MailParams();
 
 $mailParams
     ->setFrom('no-reply@mycompany.com', 'MyCompany Notifications')
-    ->setTo('john.doe@example.com', 'John Doe'])
+    ->setTo('john.doe@example.com', 'John Doe')
     ->setSubject('This is a subject')
     ->setHtml('<h1>HTML emails are cool, {{name}}</h1>')
     ->setText('Text emails are also cool, {{name}}')
