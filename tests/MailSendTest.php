@@ -11,7 +11,6 @@ use EnvialoSimple\Transaccional\Helpers\Builder\MailParams;
 use function PHPUnit\Framework\assertArrayHasKey;
 use function PHPUnit\Framework\assertTrue;
 
-
 $dotenv = Dotenv\Dotenv::createUnsafeImmutable(__DIR__);
 $dotenv->safeLoad();
 
@@ -104,9 +103,11 @@ final class MailSendTest extends TestCase
             ->setFrom(getenv('TEST_FROM_EMAIL'), getenv('TEST_FROM_NAME'))
             ->setTo(getenv('TEST_TO_EMAIL'), getenv('TEST_TO_NAME'))
             ->setSubject('Test')
+            ->setReplyTo(getenv('TEST_REPLY_TO'))
+            ->setPreviewText(getenv('TEST_PREVIEW_TEXT'))
             ->setHtml('<html><body><h1>TEST {{name}}</h1><img src="cid:logo"/></body></html>')
             ->setText('TEST')
-            ->setSubstitutions(['name' => 'TestName'])
+            ->setContext(['name' => 'TestName'])
             ->setAttachments([$attachment_a, $attachment_b])
         ;
 
@@ -126,7 +127,9 @@ final class MailSendTest extends TestCase
             ->setTo(getenv('TEST_TO_EMAIL'), getenv('TEST_TO_NAME'))
             ->setSubject('Test Template')
             ->setTemplateID(getenv('TEST_TEMPLATE_ID'))
-            ->setSubstitutions(['name' => 'TestName'])
+            ->setReplyTo(getenv('TEST_REPLY_TO'))
+            ->setPreviewText(getenv('TEST_PREVIEW_TEXT'))
+            ->setContext(['name' => 'TestName'])
         ;
 
         $outcome = $this->estr->mail->send($mailParams);

@@ -21,12 +21,13 @@ $mailParams = new MailParams();
 $mailParams
     ->setFrom('no-reply@mycompany.com', 'MyCompany Notifications')
     ->setTo('john.doe@example.com', 'John Doe')
+    ->setReplyTo('do-reply@mycompany.com')
+    ->setPreviewText('A glimpse of what comes next...')
     ->setSubject('This is a subject')
-    ->setHtml('<h1>HTML emails are cool, {{name}}</h1>')
-    ->setText('Text emails are also cool, {{name}}')
-    ->setSubstitutions(['name' => 'John'])
+    ->setHtml('<h1>HTML emails are cool, {{ name }}</h1>')
+    ->setText('Text emails are also cool, {{ name }}')
+    ->setContext(['name' => 'John'])
     ;
 
 $estr->mail->send($mailParams);
 ```
-
