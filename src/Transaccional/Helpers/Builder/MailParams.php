@@ -210,6 +210,13 @@ class MailParams
             throw new ESTRException('Email address "To" must be set');
         }
 
+        if (is_null($this->template_id) && is_null($this->text) && is_null($this->html)) {
+            throw new ESTRException(
+                "No content was provided. \n
+                Please set either the text or html attributes, or specify a template ID"
+            );
+        }
+
         if (isset($this->template_id) && (isset($this->text) || isset($this->html))) {
             throw new ESTRException('Content (html or text) and templates are mutually exclusive');
         }
@@ -260,8 +267,13 @@ class MailParams
         if (!is_null($this->template_id)) {
             $result['templateID'] = $this->template_id;
         } else {
-            $result['html'] = $this->html;
-            $result['text'] = $this->text;
+            if (!is_null($this->html)) {
+                $result['html'] = $this->html;
+            }
+
+            if (!is_null($this->text)) {
+                $result['text'] = $this->text;
+            }
         }
 
         return array_merge($result, [
