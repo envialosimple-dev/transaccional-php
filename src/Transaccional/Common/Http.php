@@ -8,9 +8,12 @@ class Http
 {
     protected string $apikey;
 
-    public function __construct(string $apikey)
+    protected string $apiurl;
+
+    public function __construct(string $apikey, string $apiurl)
     {
         $this->apikey = $apikey;
+        $this->apiurl = $apiurl;
     }
 
     public function post(string $url, array $data): array
@@ -19,7 +22,7 @@ class Http
         $jsonData = json_encode($data);
 
         // Initialize cURL session
-        $ch = curl_init($url);
+        $ch = curl_init($this->apiurl . $url);
 
         // Set cURL options
         curl_setopt($ch, CURLOPT_POST, 1);

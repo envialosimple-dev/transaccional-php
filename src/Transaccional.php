@@ -2,6 +2,7 @@
 
 namespace EnvialoSimple;
 
+use EnvialoSimple\Transaccional\Common\Constants;
 use EnvialoSimple\Transaccional\Endpoints\Mail;
 use EnvialoSimple\Transaccional\Common\Http;
 
@@ -19,10 +20,14 @@ class Transaccional
 
     public Mail $mail;
 
-    public function __construct(string $apikey)
+    public function __construct(string $apikey, ?string $apiurl = null)
     {
+        if (is_null($apiurl)) {
+            $apiurl = Constants::API_URL;
+        }
+
         $this->apikey = $apikey;
-        $this->http = new Http($apikey);
+        $this->http = new Http($apikey, $apiurl);
         $this->mail = new Mail($this->http);
     }
 }

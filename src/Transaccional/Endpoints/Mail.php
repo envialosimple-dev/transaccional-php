@@ -2,7 +2,6 @@
 
 namespace EnvialoSimple\Transaccional\Endpoints;
 
-use EnvialoSimple\Transaccional\Common\Constants;
 use EnvialoSimple\Transaccional\Common\Http;
 use EnvialoSimple\Transaccional\Exceptions\ESTRException;
 use EnvialoSimple\Transaccional\Exceptions\ESTRForbiddenException;
@@ -22,9 +21,7 @@ class Mail
 
     public function send(MailParams $params)
     {
-        $url = Constants::API_URL . Mail::ENDPOINT_MAIL_SEND;
-
-        list($httpCode, $body) = $this->http->post($url, $params->toArray());
+        list($httpCode, $body) = $this->http->post(Mail::ENDPOINT_MAIL_SEND, $params->toArray());
 
         if ($httpCode >= 400) {
             switch ($httpCode) {
