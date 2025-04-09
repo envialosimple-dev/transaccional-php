@@ -7,7 +7,7 @@ use EnvialoSimple\Transaccional\Exceptions\ESTRException;
 class MailParams
 {
     protected string $from;
-    protected string $to;
+    protected string|array $to;
     protected ?string $from_name = null;
     protected ?string $to_name = null;
     protected ?string $reply_to;
@@ -49,12 +49,12 @@ class MailParams
         return $this;
     }
 
-    public function getTo(): ?string
+    public function getTo(): string|array|null
     {
         return $this->to;
     }
 
-    public function setTo(string $to, ?string $name = null): MailParams
+    public function setTo(string|array $to, ?string $name = null): MailParams
     {
         $this->to = $to;
 
@@ -243,7 +243,9 @@ class MailParams
             $result['from'] = $this->from;
         }
 
-        if (isset($this->to_name)) {
+        if (is_array($this->to)) {
+            $result['to'] = $this->to;
+        } elseif (isset($this->to_name)) {
             $result['to'] = [
                 'email' => $this->to,
                 'name' => $this->to_name,
